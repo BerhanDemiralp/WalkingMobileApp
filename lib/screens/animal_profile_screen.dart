@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:keepintouch/form_details_screen.dart';
-import 'package:keepintouch/models.dart';
+import 'package:keepintouch/screens/form_details_screen.dart';
+import 'package:keepintouch/models/models.dart';
+import 'package:keepintouch/services/animal_service.dart';
 
 class AnimalProfileScreen extends StatefulWidget {
   final Animal animal;
@@ -13,15 +14,38 @@ class AnimalProfileScreen extends StatefulWidget {
 }
 
 class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
+  late Animal _animalState;
+  final AnimalService _animalService = AnimalService();
+
+  @override
+  void initState() {
+    super.initState();
+    // Create a local, mutable copy to manage state
+    _animalState = widget.animal;
+  }
+
+  // Method to handle updating the form in the local state and service
+  void _updateForm(FormEntry updatedForm) {
+    // This updates the data in our mock service
+    _animalService.updateForm(updatedForm);
+    setState(() {
+      // This updates the UI of this screen
+      final formIndex = _animalState.forms.indexWhere((f) => f.id == updatedForm.id);
+      if (formIndex != -1) {
+        _animalState.forms[formIndex] = updatedForm;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Sort all forms by date (newest first)
-    final sortedForms = List<FormEntry>.from(widget.animal.forms);
+    // Use the local state object for building the UI
+    final sortedForms = List<FormEntry>.from(_animalState.forms);
     sortedForms.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.animal.name),
+        title: Text(_animalState.name),
         elevation: 0,
       ),
       body: Container(
@@ -42,7 +66,7 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      widget.animal.name,
+                      _animalState.name,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -76,7 +100,7 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                             children: [
                               const Icon(Icons.info_outline, color: Colors.grey),
                               const SizedBox(width: 8),
-                              Text('Tür: ${widget.animal.species}'),
+                              Text('Tür: ${_animalState.species}'),
                             ],
                           ),
                           const SizedBox(height: 4),
@@ -84,7 +108,7 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                             children: [
                               const Icon(Icons.cake_outlined, color: Colors.grey),
                               const SizedBox(width: 8),
-                              Text('Yaş: ${widget.animal.age}'),
+                              Text('Yaş: ${_animalState.age}'),
                             ],
                           ),
                         ],
@@ -110,7 +134,7 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                             children: [
                               const Icon(Icons.person_outline, color: Colors.grey),
                               const SizedBox(width: 8),
-                              Text('Ad: ${widget.animal.owner.name}'),
+                              Text('Ad: ${_animalState.owner.name}'),
                             ],
                           ),
                           const SizedBox(height: 4),
@@ -118,7 +142,7 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                             children: [
                               const Icon(Icons.phone_outlined, color: Colors.grey),
                               const SizedBox(width: 8),
-                              Text('İletişim: ${widget.animal.owner.contact}'),
+                              Text('İletişim: ${_animalState.owner.contact}'),
                             ],
                           ),
                         ],
@@ -178,13 +202,16 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                         style: const TextStyle(color: Colors.grey, fontSize: 12),
                       ),
                       onTap: () async {
-                        await Navigator.push(
+                        final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => FormDetailsScreen(form: form),
                           ),
                         );
-                        setState(() {}); // Rebuild to reflect changes
+                        // If a form was returned with changes, update the state
+                        if (result != null && result is FormEntry) {
+                          _updateForm(result);
+                        }
                       },
                     ),
                   );

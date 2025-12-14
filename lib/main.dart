@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keepintouch/home_page.dart';
-import 'package:keepintouch/profile_page.dart';
-import 'package:keepintouch/settings_page.dart';
+import 'package:keepintouch/screens/home_page.dart';
+import 'package:keepintouch/screens/profile_page.dart';
+import 'package:keepintouch/screens/settings_page.dart';
 
 void main() {
   runApp(const MyApp());
