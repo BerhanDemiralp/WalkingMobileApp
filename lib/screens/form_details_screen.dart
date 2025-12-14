@@ -39,12 +39,12 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // WillPopScope ensures that we return the updated state when the user
-    // uses the hardware back button on Android.
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pop(_formState);
-        return true;
+    return PopScope(
+      canPop: false, // We manually control popping to return data
+      onPopInvoked: (bool didPop) { // Using the modern callback
+        // This is called after a pop gesture is handled.
+        if (didPop) return; // If pop already happened, do nothing.
+        Navigator.of(context).pop(_formState); // Otherwise, pop with our data.
       },
       child: Scaffold(
         appBar: AppBar(
