@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:keepintouch/screens/form_details_screen.dart';
 import 'package:keepintouch/models/models.dart';
+import 'package:keepintouch/screens/form_details_screen.dart';
 import 'package:keepintouch/services/animal_service.dart';
 
 class AnimalProfileScreen extends StatefulWidget {
   final Animal animal;
+  final User currentUser; // Added currentUser
 
-  const AnimalProfileScreen({super.key, required this.animal});
+  const AnimalProfileScreen({super.key, required this.animal, required this.currentUser});
 
   @override
   State<AnimalProfileScreen> createState() => _AnimalProfileScreenState();
@@ -20,16 +21,12 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // Create a local, mutable copy to manage state
     _animalState = widget.animal;
   }
 
-  // Method to handle updating the form in the local state and service
   void _updateForm(FormEntry updatedForm) {
-    // This updates the data in our mock service
     _animalService.updateForm(updatedForm);
     setState(() {
-      // This updates the UI of this screen
       final formIndex = _animalState.forms.indexWhere((f) => f.id == updatedForm.id);
       if (formIndex != -1) {
         _animalState.forms[formIndex] = updatedForm;
@@ -39,7 +36,6 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Use the local state object for building the UI
     final sortedForms = List<FormEntry>.from(_animalState.forms);
     sortedForms.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
@@ -52,7 +48,6 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
         color: Colors.green[50],
         child: Column(
           children: [
-            // Header with animal avatar
             Container(
               color: Theme.of(context).colorScheme.primary,
               padding: const EdgeInsets.all(24.0),
@@ -77,7 +72,6 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                 ),
               ),
             ),
-            // Animal and Owner Information
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -153,7 +147,6 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
               ),
             ),
             const Divider(indent: 16, endIndent: 16),
-            // List of All Forms
             Expanded(
               child: ListView.builder(
                 itemCount: sortedForms.length,
@@ -164,21 +157,18 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                   String subtitle;
 
                   if (!form.isFilled) {
-                    // State 1: Pending (unfilled)
                     leadingIcon = CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       child: Icon(Icons.hourglass_empty, color: Colors.grey[600]),
                     );
                     subtitle = 'Pending';
                   } else if (form.isFilled && !form.isChecked) {
-                    // State 2: Awaiting Review (filled but not checked)
                     leadingIcon = CircleAvatar(
                       backgroundColor: Colors.orange[100],
                       child: Icon(form.type.icon, color: Colors.orange),
                     );
                     subtitle = 'Awaiting Review';
                   } else {
-                    // State 3: Reviewed (filled and checked)
                     leadingIcon = CircleAvatar(
                       backgroundColor: Colors.green[100],
                       child: Icon(form.type.icon, color: Colors.green),
@@ -205,10 +195,12 @@ class _AnimalProfileScreenState extends State<AnimalProfileScreen> {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FormDetailsScreen(form: form),
+                            builder: (context) => FormDetailsScreen(
+                              form: form,
+                              currentUser: widget.currentUser, // Pass currentUser
+                            ),
                           ),
                         );
-                        // If a form was returned with changes, update the state
                         if (result != null && result is FormEntry) {
                           _updateForm(result);
                         }

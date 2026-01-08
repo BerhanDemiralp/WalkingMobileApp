@@ -16,4 +16,26 @@ class User {
     required this.createdAt,
     this.lastLogin,
   });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'username': username,
+        'email': email,
+        'role': role,
+        'isActive': isActive,
+        'createdAt': createdAt.toIso8601String(),
+        'lastLogin': lastLogin?.toIso8601String(),
+      };
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json['id'],
+        username: json['username'],
+        email: json['email'],
+        role: json['role'],
+        isActive: json['isActive'],
+        createdAt: DateTime.parse(json['createdAt']),
+        lastLogin: json['lastLogin'] != null
+            ? DateTime.parse(json['lastLogin'])
+            : null,
+      );
 }

@@ -3,8 +3,9 @@ import 'package:keepintouch/models/models.dart';
 
 class FormDetailsScreen extends StatefulWidget {
   final FormEntry form;
+  final User currentUser; // User who is performing the check
 
-  const FormDetailsScreen({super.key, required this.form});
+  const FormDetailsScreen({super.key, required this.form, required this.currentUser});
 
   @override
   State<FormDetailsScreen> createState() => _FormDetailsScreenState();
@@ -16,11 +17,9 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Create a local, mutable copy of the form to manage its state
     _formState = widget.form;
   }
 
-  // Helper function to handle the state change for the checkbox.
   void _toggleChecked(bool newValue) {
     setState(() {
       _formState = FormEntry(
@@ -29,6 +28,7 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
         type: _formState.type,
         formData: _formState.formData,
         isChecked: newValue,
+        checkedByUserId: newValue ? widget.currentUser.id : null, // Set the current user ID
         createdAt: _formState.createdAt,
         sentAt: _formState.sentAt,
         checkedAt: newValue ? DateTime.now() : null,
@@ -40,16 +40,14 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false, // We manually control popping to return data
-      onPopInvoked: (bool didPop) { // Using the modern callback
-        // This is called after a pop gesture is handled.
-        if (didPop) return; // If pop already happened, do nothing.
-        Navigator.of(context).pop(_formState); // Otherwise, pop with our data.
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, dynamic result) {
+        if (didPop) return;
+        Navigator.of(context).pop(_formState);
       },
       child: Scaffold(
         appBar: AppBar(
           title: Text(_formState.type.displayTitle),
-          // Also update the AppBar's back button to return the state
           leading: BackButton(
             onPressed: () => Navigator.of(context).pop(_formState),
           ),
@@ -60,7 +58,6 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Display form data only if it is filled
               if (_formState.isFilled)
                 Card(
                   elevation: 2,
@@ -78,7 +75,7 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                entry.key, // Question
+                                entry.key,
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
                                   fontWeight: FontWeight.bold,
@@ -87,7 +84,7 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
                               ),
                               const SizedBox(height: 6.0),
                               Text(
-                                entry.value, // Answer
+                                entry.value,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.black87,
@@ -103,7 +100,6 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
                   ),
                 )
               else
-                // Show a message if the form is not filled out
                 const Expanded(
                   child: Center(
                     child: Text(
@@ -113,11 +109,10 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
                   ),
                 ),
               const Spacer(),
-              // Only show the review checkbox if the form has been filled
               if (_formState.isFilled)
                 Card(
                   elevation: 2,
-                  clipBehavior: Clip.antiAlias, // Ensures the InkWell ripple stays inside
+                  clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
