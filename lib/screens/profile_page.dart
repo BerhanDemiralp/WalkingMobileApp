@@ -23,10 +23,6 @@ class _ProfilePageState extends State<ProfilePage> {
       listenable: _dataService,
       builder: (context, _) {
         // Recalculate stats every time the data service notifies of a change
-        final formsCheckedByMe = mockFormEntries.where((f) => f.checkedByUserId == widget.user.id).toList();
-        final currentTotal = formsCheckedByMe.length;
-        final totalForms = mockFormEntries.length;
-
         return Container(
           color: Colors.green[50],
           child: ListView(
@@ -38,11 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildInfoItem('Username', widget.user.username, Icons.person),
                 _buildInfoItem('Email', widget.user.email, Icons.email),
                 _buildInfoItem('Role', widget.user.role.toUpperCase(), Icons.badge),
-              ]),
-              const SizedBox(height: 16),
-              _buildInfoCard('Work Statistics', [
-                _buildInfoItem('Forms Checked', '$currentTotal / $totalForms', Icons.fact_check),
-                _buildInfoItem('Account Created', _formatDate(widget.user.createdAt), Icons.calendar_today),
               ]),
               const SizedBox(height: 32),
               _buildLogoutButton(context),

@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _pages = [
       HomePage(currentUser: widget.user), // Pass user down
-      const DataPage(),
+      DataPage(currentUser: widget.user), // Added currentUser here
       ProfilePage(user: widget.user),
     ];
   }
