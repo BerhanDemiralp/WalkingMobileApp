@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _showUnfilled = false;
   bool _showUnchecked = false;
+  bool _showAssignedToMe = false; // New filter state
 
   @override
   void initState() {
@@ -31,17 +32,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Animal> _filterAnimals(List<Animal> animals) {
-    if (!_showUnfilled && !_showUnchecked) {
+    if (!_showUnfilled && !_showUnchecked && !_showAssignedToMe) {
       return animals;
     }
     return animals.where((animal) {
-      bool matches = false;
-      if (_showUnfilled) {
-        matches = matches || animal.forms.any((form) => !form.isFilled);
+      bool matches = true; // Use true as base for AND-like filtering logic
+      
+      if (_showAssignedToMe) {
+        matches = matches && widget.currentUser.assignedOwnerIds.contains(animal.ownerId);
       }
-      if (_showUnchecked) {
-        matches = matches || animal.forms.any((form) => form.isFilled && !form.isChecked);
+      
+      if (_showUnfilled || _showUnchecked) {
+        bool statusMatch = false;
+        if (_showUnfilled) {
+          statusMatch = statusMatch || animal.forms.any((form) => !form.isFilled);
+        }
+        if (_showUnchecked) {
+          statusMatch = statusMatch || animal.forms.any((form) => form.isFilled && !form.isChecked);
+        }
+        matches = matches && statusMatch;
       }
+      
       return matches;
     }).toList();
   }
@@ -68,11 +79,25 @@ class _HomePageState extends State<HomePage> {
           color: Colors.green[50],
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    FilterChip(
+                      avatar: Icon(Icons.assignment_ind,
+                          color: _showAssignedToMe ? Colors.white : Colors.blue),
+                      label: const Text('Bana Atandı'),
+                      selected: _showAssignedToMe,
+                      selectedColor: Colors.blue,
+                      onSelected: (selected) {
+                        setState(() {
+                          _showAssignedToMe = selected;
+                        });
+                      },
+                    ),
+                    const SizedBox(width: 8),
                     FilterChip(
                       avatar: Icon(Icons.hourglass_empty_rounded,
                           color: _showUnfilled ? Colors.white : Colors.black87),
@@ -111,6 +136,8 @@ class _HomePageState extends State<HomePage> {
                       final filledForms = animal.forms.where((form) => form.isFilled).toList();
                       final hasUncheckedForm = filledForms.any((form) => !form.isChecked);
                       final allFormsChecked = filledForms.isNotEmpty && !hasUncheckedForm;
+                      
+                      final isAssignedToMe = widget.currentUser.assignedOwnerIds.contains(animal.ownerId);
 
                       Icon statusIcon;
                       Color statusColor;
@@ -154,10 +181,28 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                                  child: const Icon(Icons.pets, color: Colors.white, size: 30),
+                                Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                                      child: const Icon(Icons.pets, color: Colors.white, size: 30),
+                                    ),
+                                    if (isAssignedToMe)
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: Colors.white, width: 2),
+                                          ),
+                                          child: const Icon(Icons.assignment_ind, size: 12, color: Colors.white),
+                                        ),
+                                      ),
+                                  ],
                                 ),
                                 const SizedBox(width: 16),
                                 Expanded(

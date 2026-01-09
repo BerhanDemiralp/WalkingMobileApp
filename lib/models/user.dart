@@ -6,6 +6,7 @@ class User {
   final bool isActive;
   final DateTime createdAt;
   final DateTime? lastLogin;
+  final List<int> assignedOwnerIds; // New field for assigned owners
 
   User({
     required this.id,
@@ -15,6 +16,7 @@ class User {
     this.isActive = true,
     required this.createdAt,
     this.lastLogin,
+    this.assignedOwnerIds = const [], // Default empty
   });
 
   Map<String, dynamic> toJson() => {
@@ -25,6 +27,7 @@ class User {
         'isActive': isActive,
         'createdAt': createdAt.toIso8601String(),
         'lastLogin': lastLogin?.toIso8601String(),
+        'assignedOwnerIds': assignedOwnerIds,
       };
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -37,5 +40,6 @@ class User {
         lastLogin: json['lastLogin'] != null
             ? DateTime.parse(json['lastLogin'])
             : null,
+        assignedOwnerIds: List<int>.from(json['assignedOwnerIds'] ?? []),
       );
 }

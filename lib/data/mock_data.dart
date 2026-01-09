@@ -2,9 +2,30 @@ import 'package:keepintouch/models/models.dart';
 
 // --- USERS ---
 List<User> mockUsers = [
-  User(id: 1, username: 'berhan', email: 'berhan@example.com', role: 'admin', createdAt: DateTime(2023, 1, 1)),
-  User(id: 2, username: 'aylin', email: 'aylin@example.com', role: 'user', createdAt: DateTime(2023, 2, 10)),
-  User(id: 3, username: 'can', email: 'can@example.com', role: 'user', createdAt: DateTime(2023, 3, 15)),
+  User(
+    id: 1, 
+    username: 'berhan', 
+    email: 'berhan@example.com', 
+    role: 'admin', 
+    createdAt: DateTime(2023, 1, 1),
+    assignedOwnerIds: [1, 4, 14, 15, 16, 18, 19, 20], // Assigned specific owners
+  ),
+  User(
+    id: 2, 
+    username: 'aylin', 
+    email: 'aylin@example.com', 
+    role: 'user', 
+    createdAt: DateTime(2023, 2, 10),
+    assignedOwnerIds: [2, 3, 6, 9, 10, 11, 12],
+  ),
+  User(
+    id: 3, 
+    username: 'can', 
+    email: 'can@example.com', 
+    role: 'user', 
+    createdAt: DateTime(2023, 3, 15),
+    assignedOwnerIds: [5, 7, 8, 13, 17],
+  ),
 ];
 
 // --- OWNERS (20 Manually) ---
@@ -34,56 +55,10 @@ List<Owner> mockOwners = [
 
 // --- FORM ENTRIES (60 total) ---
 List<FormEntry> mockFormEntries = [
-  // Animal 1 (3 Forms) - Updated with realistic data
-  FormEntry(
-      id: '1',
-      animalId: 1,
-      type: FormType.RoutineCheck,
-      formData: {
-        'Genel Görünüm': 'Canlı ve parlak tüylü.',
-        'Davranış': 'Oyuncu ve sosyal.',
-        'Yeme/İçme Alışkanlıkları': 'Normal, iştahı yerinde.',
-        'Ek Notlar': 'Herhangi bir sorun gözlemlenmedi.'
-      },
-      isChecked: true,
-      checkedByUserId: 1,
-      createdAt: DateTime(2024, 1, 15),
-      sentAt: DateTime(2024, 1, 15),
-      checkedAt: DateTime(2024, 1, 16),
-      updatedAt: DateTime(2024, 1, 16)
-  ),
-  FormEntry(
-      id: '2',
-      animalId: 1,
-      type: FormType.Vaccination,
-      formData: {
-        'Uygulanan Aşı': 'Kuduz (Rabies) - Yıllık Tekrar',
-        'Lot Numarası': 'RAB2024-11B',
-        'Reaksiyon Gözlemlendi mi?': 'Hayır, herhangi bir yan etki görülmedi.',
-        'Sonraki Aşı Tarihi': '20 Mart 2025'
-      },
-      isChecked: true,
-      checkedByUserId: 1,
-      createdAt: DateTime(2024, 3, 20),
-      sentAt: DateTime(2024, 3, 20),
-      checkedAt: DateTime(2024, 3, 21),
-      updatedAt: DateTime(2024, 3, 21)
-  ),
-  FormEntry(
-      id: '3',
-      animalId: 1,
-      type: FormType.Emergency,
-      formData: {
-        'Acil Durum Sebebi': 'Aşırı ve sürekli kaşınma, kulaklarını sallama.',
-        'İlk Değerlendirme': 'Sol kulakta kızarıklık ve akıntı tespit edildi.',
-        'Uygulanan Tedavi': 'Kulak temizliği yapıldı ve antibiyotikli damla reçete edildi.',
-        'Evde Bakım Talimatları': 'Damlanın 7 gün boyunca günde 2 kez kullanılması gerekiyor.'
-      },
-      isChecked: false,
-      createdAt: DateTime(2024, 5, 10),
-      sentAt: DateTime(2024, 5, 10),
-      updatedAt: DateTime(2024, 5, 10)
-  ),
+  // Animal 1 (3 Forms)
+  FormEntry(id: '1', animalId: 1, type: FormType.RoutineCheck, formData: {'Genel Görünüm': 'Canlı ve parlak tüylü.', 'Davranış': 'Oyuncu ve sosyal.', 'Yeme/İçme Alışkanlıkları': 'Normal, iştahı yerinde.', 'Ek Notlar': 'Herhangi bir sorun gözlemlenmedi.'}, isChecked: true, checkedByUserId: 1, createdAt: DateTime(2024, 1, 15), sentAt: DateTime(2024, 1, 15), checkedAt: DateTime(2024, 1, 16), updatedAt: DateTime(2024, 1, 16)),
+  FormEntry(id: '2', animalId: 1, type: FormType.Vaccination, formData: {'Uygulanan Aşı': 'Kuduz (Rabies) - Yıllık Tekrar', 'Lot Numarası': 'RAB2024-11B', 'Reaksiyon Gözlemlendi mi?': 'Hayır, herhangi bir yan etki görülmedi.', 'Sonraki Aşı Tarihi': '20 Mart 2025'}, isChecked: true, checkedByUserId: 1, createdAt: DateTime(2024, 3, 20), sentAt: DateTime(2024, 3, 20), checkedAt: DateTime(2024, 3, 21), updatedAt: DateTime(2024, 3, 21)),
+  FormEntry(id: '3', animalId: 1, type: FormType.Emergency, formData: {'Acil Durum Sebebi': 'Aşırı ve sürekli kaşınma, kulaklarını sallama.', 'İlk Değerlendirme': 'Sol kulakta kızarıklık ve akıntı tespit edildi.', 'Uygulanan Tedavi': 'Kulak temizliği yapıldı ve antibiyotikli damla reçete edildi.', 'Evde Bakım Talimatları': 'Damlanın 7 gün boyunca günde 2 kez kullanılması gerekiyor.'}, isChecked: false, createdAt: DateTime(2024, 5, 10), sentAt: DateTime(2024, 5, 10), updatedAt: DateTime(2024, 5, 10)),
 
   // Animal 2 (3 Forms)
   FormEntry(id: '4', animalId: 2, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Healthy weight and appetite.'}, isChecked: true, createdAt: DateTime(2024, 2, 1), sentAt: DateTime(2024, 2, 1), checkedAt: DateTime(2024, 2, 2), updatedAt: DateTime(2024, 2, 2)),
@@ -91,8 +66,8 @@ List<FormEntry> mockFormEntries = [
   FormEntry(id: '6', animalId: 2, type: FormType.Surgery, formData: {}, isChecked: false, createdAt: DateTime(2024, 6, 12), updatedAt: DateTime(2024, 6, 12)),
 
   // Animal 3 (3 Forms)
-  FormEntry(id: '7', animalId: 3, type: FormType.Vaccination, checkedByUserId: 1, formData: {'Notes': 'Booster shots administered.'}, isChecked: true, createdAt: DateTime(2024, 1, 22), sentAt: DateTime(2024, 1, 22), checkedAt: DateTime(2024, 1, 23), updatedAt: DateTime(2024, 1, 23)),
-  FormEntry(id: '8', animalId: 3, type: FormType.RoutineCheck, checkedByUserId: 1, formData: {'Notes': 'Grooming recommendations provided.'}, isChecked: true, createdAt: DateTime(2024, 3, 1), sentAt: DateTime(2024, 3, 1), checkedAt: DateTime(2024, 3, 2), updatedAt: DateTime(2024, 3, 2)),
+  FormEntry(id: '7', animalId: 3, type: FormType.Vaccination, checkedByUserId: 2, formData: {'Notes': 'Booster shots administered.'}, isChecked: true, createdAt: DateTime(2024, 1, 22), sentAt: DateTime(2024, 1, 22), checkedAt: DateTime(2024, 1, 23), updatedAt: DateTime(2024, 1, 23)),
+  FormEntry(id: '8', animalId: 3, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Grooming recommendations provided.'}, isChecked: true, createdAt: DateTime(2024, 3, 1), sentAt: DateTime(2024, 3, 1), checkedAt: DateTime(2024, 3, 2), updatedAt: DateTime(2024, 3, 2)),
   FormEntry(id: '9', animalId: 3, type: FormType.RoutineCheck, formData: {'Notes': 'Owner reports excessive scratching.'}, isChecked: false, createdAt: DateTime(2024, 5, 18), sentAt: DateTime(2024, 5, 18), updatedAt: DateTime(2024, 5, 18)),
 
   // Animal 4 (3 Forms)
@@ -106,7 +81,7 @@ List<FormEntry> mockFormEntries = [
   FormEntry(id: '15', animalId: 5, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 7, 3), updatedAt: DateTime(2024, 7, 3)),
 
   // Animal 6 (3 Forms)
-  FormEntry(id: '16', animalId: 6, type: FormType.Surgery, checkedByUserId: 3, formData: {'Notes': 'Scheduled for neutering.'}, isChecked: true, createdAt: DateTime(2024, 6, 10), sentAt: DateTime(2024, 6, 10), checkedAt: DateTime(2024, 6, 11), updatedAt: DateTime(2024, 6, 11)),
+  FormEntry(id: '16', animalId: 6, type: FormType.Surgery, checkedByUserId: 2, formData: {'Notes': 'Scheduled for neutering.'}, isChecked: true, createdAt: DateTime(2024, 6, 10), sentAt: DateTime(2024, 6, 10), checkedAt: DateTime(2024, 6, 11), updatedAt: DateTime(2024, 6, 11)),
   FormEntry(id: '17', animalId: 6, type: FormType.RoutineCheck, formData: {'Notes': 'Post-surgery checkup.'}, isChecked: false, createdAt: DateTime(2024, 6, 24), sentAt: DateTime(2024, 6, 24), updatedAt: DateTime(2024, 6, 24)),
   FormEntry(id: '18', animalId: 6, type: FormType.Emergency, formData: {}, isChecked: false, createdAt: DateTime(2024, 8, 1), updatedAt: DateTime(2024, 8, 1)),
 
@@ -116,28 +91,28 @@ List<FormEntry> mockFormEntries = [
   FormEntry(id: '21', animalId: 7, type: FormType.Vaccination, formData: {}, isChecked: false, createdAt: DateTime(2024, 5, 22), updatedAt: DateTime(2024, 5, 22)),
 
   // Animal 8 (3 Forms)
-  FormEntry(id: '22', animalId: 8, type: FormType.Emergency, formData: {'Notes': 'Presented with a limp.'}, isChecked: false, createdAt: DateTime(2024, 5, 30), sentAt: DateTime(2024, 5, 30), updatedAt: DateTime(2024, 5, 30)),
+  FormEntry(id: '22', animalId: 8, type: FormType.Emergency, checkedByUserId: 3, formData: {'Notes': 'Presented with a limp.'}, isChecked: true, createdAt: DateTime(2024, 5, 30), sentAt: DateTime(2024, 5, 30), checkedAt: DateTime(2024, 5, 31), updatedAt: DateTime(2024, 5, 30)),
   FormEntry(id: '23', animalId: 8, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 6, 15), updatedAt: DateTime(2024, 6, 15)),
   FormEntry(id: '24', animalId: 8, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 7, 1), updatedAt: DateTime(2024, 7, 1)),
 
   // Animal 9 (3 Forms)
-  FormEntry(id: '25', animalId: 9, type: FormType.RoutineCheck, checkedByUserId: 1, formData: {'Notes': 'Normal checkup.'}, isChecked: true, createdAt: DateTime(2024, 5, 9), sentAt: DateTime(2024, 5, 9), checkedAt: DateTime(2024, 5, 10), updatedAt: DateTime(2024, 5, 10)),
-  FormEntry(id: '26', animalId: 9, type: FormType.Vaccination, checkedByUserId: 1, formData: {'Notes': 'Flea and tick prevention applied.'}, isChecked: true, createdAt: DateTime(2024, 5, 23), sentAt: DateTime(2024, 5, 23), checkedAt: DateTime(2024, 5, 24), updatedAt: DateTime(2024, 5, 24)),
+  FormEntry(id: '25', animalId: 9, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Normal checkup.'}, isChecked: true, createdAt: DateTime(2024, 5, 9), sentAt: DateTime(2024, 5, 9), checkedAt: DateTime(2024, 5, 10), updatedAt: DateTime(2024, 5, 10)),
+  FormEntry(id: '26', animalId: 9, type: FormType.Vaccination, checkedByUserId: 2, formData: {'Notes': 'Flea and tick prevention applied.'}, isChecked: true, createdAt: DateTime(2024, 5, 23), sentAt: DateTime(2024, 5, 23), checkedAt: DateTime(2024, 5, 24), updatedAt: DateTime(2024, 5, 24)),
   FormEntry(id: '27', animalId: 9, type: FormType.Surgery, formData: {'Notes': 'Dental cleaning performed.'}, isChecked: false, createdAt: DateTime(2024, 6, 14), sentAt: DateTime(2024, 6, 14), updatedAt: DateTime(2024, 6, 14)),
 
   // Animal 10 (3 Forms)
-  FormEntry(id: '28', animalId: 10, type: FormType.RoutineCheck, checkedByUserId: 1, formData: {'Notes': 'Healthy and active.'}, isChecked: true, createdAt: DateTime(2024, 2, 28), sentAt: DateTime(2024, 2, 28), checkedAt: DateTime(2024, 2, 29), updatedAt: DateTime(2024, 2, 29)),
+  FormEntry(id: '28', animalId: 10, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Healthy and active.'}, isChecked: true, createdAt: DateTime(2024, 2, 28), sentAt: DateTime(2024, 2, 28), checkedAt: DateTime(2024, 2, 29), updatedAt: DateTime(2024, 2, 29)),
   FormEntry(id: '29', animalId: 10, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 4, 10), updatedAt: DateTime(2024, 4, 10)),
   FormEntry(id: '30', animalId: 10, type: FormType.Emergency, formData: {}, isChecked: false, createdAt: DateTime(2024, 6, 5), updatedAt: DateTime(2024, 6, 5)),
 
   // Animal 11 (3 Forms)
-  FormEntry(id: '31', animalId: 11, type: FormType.Vaccination, checkedByUserId: 1, formData: {'Notes': 'Annual shots up to date.'}, isChecked: true, createdAt: DateTime(2024, 5, 16), sentAt: DateTime(2024, 5, 16), checkedAt: DateTime(2024, 5, 17), updatedAt: DateTime(2024, 5, 17)),
+  FormEntry(id: '31', animalId: 11, type: FormType.Vaccination, checkedByUserId: 2, formData: {'Notes': 'Annual shots up to date.'}, isChecked: true, createdAt: DateTime(2024, 5, 16), sentAt: DateTime(2024, 5, 16), checkedAt: DateTime(2024, 5, 17), updatedAt: DateTime(2024, 5, 17)),
   FormEntry(id: '32', animalId: 11, type: FormType.RoutineCheck, formData: {'Notes': 'Slightly underweight.'}, isChecked: false, createdAt: DateTime(2024, 6, 20), sentAt: DateTime(2024, 6, 20), updatedAt: DateTime(2024, 6, 20)),
   FormEntry(id: '33', animalId: 11, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 7, 18), updatedAt: DateTime(2024, 7, 18)),
 
   // Animal 12 (3 Forms)
-  FormEntry(id: '34', animalId: 12, type: FormType.RoutineCheck, checkedByUserId: 1, formData: {'Notes': 'Pre-adoption screening passed.'}, isChecked: true, createdAt: DateTime(2024, 6, 22), sentAt: DateTime(2024, 6, 22), checkedAt: DateTime(2024, 6, 23), updatedAt: DateTime(2024, 6, 23)),
-  FormEntry(id: '35', animalId: 12, type: FormType.RoutineCheck, checkedByUserId: 1, formData: {'Notes': 'Ready for new home.'}, isChecked: true, createdAt: DateTime(2024, 6, 29), sentAt: DateTime(2024, 6, 29), checkedAt: DateTime(2024, 6, 30), updatedAt: DateTime(2024, 6, 30)),
+  FormEntry(id: '34', animalId: 12, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Pre-adoption screening passed.'}, isChecked: true, createdAt: DateTime(2024, 6, 22), sentAt: DateTime(2024, 6, 22), checkedAt: DateTime(2024, 6, 23), updatedAt: DateTime(2024, 6, 23)),
+  FormEntry(id: '35', animalId: 12, type: FormType.RoutineCheck, checkedByUserId: 2, formData: {'Notes': 'Ready for new home.'}, isChecked: true, createdAt: DateTime(2024, 6, 29), sentAt: DateTime(2024, 6, 29), checkedAt: DateTime(2024, 6, 30), updatedAt: DateTime(2024, 6, 30)),
   FormEntry(id: '36', animalId: 12, type: FormType.RoutineCheck, formData: {}, isChecked: false, createdAt: DateTime(2024, 7, 5), updatedAt: DateTime(2024, 7, 5)),
 
   // Animal 13 (4 Forms)
@@ -181,23 +156,23 @@ List<FormEntry> mockFormEntries = [
 // --- ANIMALS (20 total) ---
 List<Animal> mockAnimals = [
   Animal(id: 1, ownerId: 1, name: 'Karabaş', species: 'Köpek',breed: 'Golden Retriever', age: 5, lastCheckDate: DateTime.now().subtract(const Duration(days: 10)), createdAt: DateTime(2023, 3, 1), updatedAt: DateTime(2023, 11, 1), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 1).toList()),
-  Animal(id: 2, ownerId: 2, name: 'Pamuk', species: 'Kedi', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 20)), createdAt: DateTime(2023, 3, 2), updatedAt: DateTime(2023, 11, 2), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 2).toList()),
-  Animal(id: 3, ownerId: 3, name: 'Maviş', species: 'Kuş', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 30)), createdAt: DateTime(2023, 3, 3), updatedAt: DateTime(2023, 11, 3), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 3).toList()),
-  Animal(id: 4, ownerId: 4, name: 'Dost', species: 'Köpek', age: 7, lastCheckDate: DateTime.now().subtract(const Duration(days: 40)), createdAt: DateTime(2023, 3, 4), updatedAt: DateTime(2023, 11, 4), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 4).toList()),
-  Animal(id: 5, ownerId: 5, name: 'Boncuk', species: 'Kedi', age: 1, lastCheckDate: DateTime.now().subtract(const Duration(days: 50)), createdAt: DateTime(2023, 3, 5), updatedAt: DateTime(2023, 11, 5), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 5).toList()),
-  Animal(id: 6, ownerId: 6, name: 'Paşa', species: 'Köpek', age: 4, lastCheckDate: DateTime.now().subtract(const Duration(days: 60)), createdAt: DateTime(2023, 3, 6), updatedAt: DateTime(2023, 11, 6), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 6).toList()),
-  Animal(id: 7, ownerId: 7, name: 'Limon', species: 'Kuş', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 70)), createdAt: DateTime(2023, 3, 7), updatedAt: DateTime(2023, 11, 7), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 7).toList()),
-  Animal(id: 8, ownerId: 8, name: 'Zeytin', species: 'Kedi', age: 6, lastCheckDate: DateTime.now().subtract(const Duration(days: 80)), createdAt: DateTime(2023, 3, 8), updatedAt: DateTime(2023, 11, 8), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 8).toList()),
-  Animal(id: 9, ownerId: 9, name: 'Fındık', species: 'Köpek', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 90)), createdAt: DateTime(2023, 3, 9), updatedAt: DateTime(2023, 11, 9), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 9).toList()),
-  Animal(id: 10, ownerId: 10, name: 'Bulut', species: 'Kedi', age: 8, lastCheckDate: DateTime.now().subtract(const Duration(days: 100)), createdAt: DateTime(2023, 3, 10), updatedAt: DateTime(2023, 11, 10), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 10).toList()),
-  Animal(id: 11, ownerId: 11, name: 'Şeker', species: 'Kuş', age: 1, lastCheckDate: DateTime.now().subtract(const Duration(days: 110)), createdAt: DateTime(2023, 3, 11), updatedAt: DateTime(2023, 11, 11), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 11).toList()),
-  Animal(id: 12, ownerId: 12, name: 'Kont', species: 'Köpek', age: 9, lastCheckDate: DateTime.now().subtract(const Duration(days: 120)), createdAt: DateTime(2023, 3, 12), updatedAt: DateTime(2023, 11, 12), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 12).toList()),
-  Animal(id: 13, ownerId: 13, name: 'Garfield', species: 'Kedi', age: 4, lastCheckDate: DateTime.now().subtract(const Duration(days: 130)), createdAt: DateTime(2023, 3, 13), updatedAt: DateTime(2023, 11, 13), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 13).toList()),
-  Animal(id: 14, ownerId: 14, name: 'Çakıl', species: 'Köpek', age: 6, lastCheckDate: DateTime.now().subtract(const Duration(days: 140)), createdAt: DateTime(2023, 3, 14), updatedAt: DateTime(2023, 11, 14), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 14).toList()),
-  Animal(id: 15, ownerId: 15, name: 'Duman', species: 'Kedi', age: 5, lastCheckDate: DateTime.now().subtract(const Duration(days: 150)), createdAt: DateTime(2023, 3, 15), updatedAt: DateTime(2023, 11, 15), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 15).toList()),
-  Animal(id: 16, ownerId: 16, name: 'Hera', species: 'Köpek', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 160)), createdAt: DateTime(2023, 3, 16), updatedAt: DateTime(2023, 11, 16), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 16).toList()),
-  Animal(id: 17, ownerId: 17, name: 'Simba', species: 'Kedi', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 170)), createdAt: DateTime(2023, 3, 17), updatedAt: DateTime(2023, 11, 17), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 17).toList()),
-  Animal(id: 18, ownerId: 18, name: 'Tarçın', species: 'Köpek', age: 7, lastCheckDate: DateTime.now().subtract(const Duration(days: 180)), createdAt: DateTime(2023, 3, 18), updatedAt: DateTime(2023, 11, 18), owner: mockOwners[0], forms: mockFormEntries.where((form) => form.animalId == 18).toList()),
-  Animal(id: 19, ownerId: 19, name: 'Yoda', species: 'Tavşan', age: 1, lastCheckDate: null, createdAt: DateTime(2023, 4, 19), updatedAt: DateTime(2023, 4, 19), owner: mockOwners[0], forms: []),
-  Animal(id: 20, ownerId: 20, name: 'Spike', species: 'İguana', age: 4, lastCheckDate: null, createdAt: DateTime(2023, 4, 20), updatedAt: DateTime(2023, 4, 20), owner: mockOwners[0], forms: []),
+  Animal(id: 2, ownerId: 2, name: 'Pamuk', species: 'Kedi', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 20)), createdAt: DateTime(2023, 3, 2), updatedAt: DateTime(2023, 11, 2), owner: mockOwners[1], forms: mockFormEntries.where((form) => form.animalId == 2).toList()),
+  Animal(id: 3, ownerId: 3, name: 'Maviş', species: 'Kuş', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 30)), createdAt: DateTime(2023, 3, 3), updatedAt: DateTime(2023, 11, 3), owner: mockOwners[2], forms: mockFormEntries.where((form) => form.animalId == 3).toList()),
+  Animal(id: 4, ownerId: 4, name: 'Dost', species: 'Köpek', age: 7, lastCheckDate: DateTime.now().subtract(const Duration(days: 40)), createdAt: DateTime(2023, 3, 4), updatedAt: DateTime(2023, 11, 4), owner: mockOwners[3], forms: mockFormEntries.where((form) => form.animalId == 4).toList()),
+  Animal(id: 5, ownerId: 5, name: 'Boncuk', species: 'Kedi', age: 1, lastCheckDate: DateTime.now().subtract(const Duration(days: 50)), createdAt: DateTime(2023, 3, 5), updatedAt: DateTime(2023, 11, 5), owner: mockOwners[4], forms: mockFormEntries.where((form) => form.animalId == 5).toList()),
+  Animal(id: 6, ownerId: 6, name: 'Paşa', species: 'Köpek', age: 4, lastCheckDate: DateTime.now().subtract(const Duration(days: 60)), createdAt: DateTime(2023, 3, 6), updatedAt: DateTime(2023, 11, 6), owner: mockOwners[5], forms: mockFormEntries.where((form) => form.animalId == 6).toList()),
+  Animal(id: 7, ownerId: 7, name: 'Limon', species: 'Kuş', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 70)), createdAt: DateTime(2023, 3, 7), updatedAt: DateTime(2023, 11, 7), owner: mockOwners[6], forms: mockFormEntries.where((form) => form.animalId == 7).toList()),
+  Animal(id: 8, ownerId: 8, name: 'Zeytin', species: 'Kedi', age: 6, lastCheckDate: DateTime.now().subtract(const Duration(days: 80)), createdAt: DateTime(2023, 3, 8), updatedAt: DateTime(2023, 11, 8), owner: mockOwners[7], forms: mockFormEntries.where((form) => form.animalId == 8).toList()),
+  Animal(id: 9, ownerId: 9, name: 'Fındık', species: 'Köpek', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 90)), createdAt: DateTime(2023, 3, 9), updatedAt: DateTime(2023, 11, 9), owner: mockOwners[8], forms: mockFormEntries.where((form) => form.animalId == 9).toList()),
+  Animal(id: 10, ownerId: 10, name: 'Bulut', species: 'Kedi', age: 8, lastCheckDate: DateTime.now().subtract(const Duration(days: 100)), createdAt: DateTime(2023, 3, 10), updatedAt: DateTime(2023, 11, 10), owner: mockOwners[9], forms: mockFormEntries.where((form) => form.animalId == 10).toList()),
+  Animal(id: 11, ownerId: 11, name: 'Şeker', species: 'Kuş', age: 1, lastCheckDate: DateTime.now().subtract(const Duration(days: 110)), createdAt: DateTime(2023, 3, 11), updatedAt: DateTime(2023, 11, 11), owner: mockOwners[10], forms: mockFormEntries.where((form) => form.animalId == 11).toList()),
+  Animal(id: 12, ownerId: 12, name: 'Kont', species: 'Köpek', age: 9, lastCheckDate: DateTime.now().subtract(const Duration(days: 120)), createdAt: DateTime(2023, 3, 12), updatedAt: DateTime(2023, 11, 12), owner: mockOwners[11], forms: mockFormEntries.where((form) => form.animalId == 12).toList()),
+  Animal(id: 13, ownerId: 13, name: 'Garfield', species: 'Kedi', age: 4, lastCheckDate: DateTime.now().subtract(const Duration(days: 130)), createdAt: DateTime(2023, 3, 13), updatedAt: DateTime(2023, 11, 13), owner: mockOwners[12], forms: mockFormEntries.where((form) => form.animalId == 13).toList()),
+  Animal(id: 14, ownerId: 14, name: 'Çakıl', species: 'Köpek', age: 6, lastCheckDate: DateTime.now().subtract(const Duration(days: 140)), createdAt: DateTime(2023, 3, 14), updatedAt: DateTime(2023, 11, 14), owner: mockOwners[13], forms: mockFormEntries.where((form) => form.animalId == 14).toList()),
+  Animal(id: 15, ownerId: 15, name: 'Duman', species: 'Kedi', age: 5, lastCheckDate: DateTime.now().subtract(const Duration(days: 150)), createdAt: DateTime(2023, 3, 15), updatedAt: DateTime(2023, 11, 15), owner: mockOwners[14], forms: mockFormEntries.where((form) => form.animalId == 15).toList()),
+  Animal(id: 16, ownerId: 16, name: 'Hera', species: 'Köpek', age: 3, lastCheckDate: DateTime.now().subtract(const Duration(days: 160)), createdAt: DateTime(2023, 3, 16), updatedAt: DateTime(2023, 11, 16), owner: mockOwners[15], forms: mockFormEntries.where((form) => form.animalId == 16).toList()),
+  Animal(id: 17, ownerId: 17, name: 'Simba', species: 'Kedi', age: 2, lastCheckDate: DateTime.now().subtract(const Duration(days: 170)), createdAt: DateTime(2023, 3, 17), updatedAt: DateTime(2023, 11, 17), owner: mockOwners[16], forms: mockFormEntries.where((form) => form.animalId == 17).toList()),
+  Animal(id: 18, ownerId: 18, name: 'Tarçın', species: 'Köpek', age: 7, lastCheckDate: DateTime.now().subtract(const Duration(days: 180)), createdAt: DateTime(2023, 3, 18), updatedAt: DateTime(2023, 11, 18), owner: mockOwners[17], forms: mockFormEntries.where((form) => form.animalId == 18).toList()),
+  Animal(id: 19, ownerId: 19, name: 'Yoda', species: 'Tavşan', age: 1, lastCheckDate: null, createdAt: DateTime(2023, 4, 19), updatedAt: DateTime(2023, 4, 19), owner: mockOwners[18], forms: []),
+  Animal(id: 20, ownerId: 20, name: 'Spike', species: 'İguana', age: 4, lastCheckDate: null, createdAt: DateTime(2023, 4, 20), updatedAt: DateTime(2023, 4, 20), owner: mockOwners[19], forms: []),
 ];
